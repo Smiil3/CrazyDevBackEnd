@@ -11,10 +11,9 @@ const userRegistration = async (req, res) => {
 };
 
 const userConnection = async (req, res) => {
-    console.log("app called")
-    const { username, password } = req.body;
+    const { email, password } = req.body;
     try {
-        const userConnection = await authService.userConnection(username, password);
+        const userConnection = await authService.userConnection(email, password);
         res.status(200).json({ token : userConnection});
     } catch (error) {
         res.status(error?.status || 500).send({ status: "FAILED", data: { error: error?.message || error } });

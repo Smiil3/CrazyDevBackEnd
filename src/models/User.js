@@ -7,6 +7,7 @@ const User = {
     findById: (id) => prisma.host.findUnique({ where: { id: Number(id) } }),
     update: (id, data) => prisma.host.update({ where: { id: Number(id) }, data }),
     remove: (id) => prisma.host.delete({ where: { id: Number(id) } }),
+
     list: () => prisma.host.findMany(),
 };
 

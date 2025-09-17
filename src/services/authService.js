@@ -3,17 +3,20 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const userRegistration = async(firstName, lastName, email, phoneNumber, password) => {
     try {
+        const userExisted = await User.findByEmail(email);
+        if (userExisted) {
+            throw { status: 400, message: 'If an account already exists for this email, try signing in or resetting your password.' };
+        }
         const hashedPassword = await bcrypt.hash(password, 10);
-         User.create({
+         await User.create({
             nom: lastName,
             prenom: firstName,
             email: email,
             telephone: phoneNumber,
-            //password: hashedPassword,
+            password_hash: hashedPassword,
         })
-
-        const userExisted = User.findByEmail(email);
-        return jwt.sign({userId: userExisted.id, name: userExisted.nom, role: "default"}, 'fc/6^?"E*sJ:n=vDuQ!z', {
+        const userAfterCreate = await User.findByEmail(email);
+        return jwt.sign({userId: userAfterCreate.id, name: userAfterCreate.nom, role: "default"}, process.env.JWT_KEY, {
             expiresIn: '60m',
         })
     } catch (error) {
@@ -23,15 +26,15 @@ const userRegistration = async(firstName, lastName, email, phoneNumber, password
 
 const userConnection = async (email, password) => {
     try {
-        const user = User.findByEmail({ email });
+        const user = await User.findByEmail( email );
         if (!user) {
             throw {status : 401, error: 'Authentication failed, user does not exist!' };
         }
-        // const passwordMatch = await bcrypt.compare(password, user.password);
-        // if (!passwordMatch) {
-        //     throw { status : 401, error: 'Authentication failed, wrong password!' };
-        // }
-        return jwt.sign({userId: user.id, name: user.nom, role: "default"}, 'fc/6^?"E*sJ:n=vDuQ!z', {
+         const passwordMatch = await bcrypt.compare(password, user.password_hash);
+         if (!passwordMatch) {
+             throw { status : 401, error: 'Authentication failed, wrong password!' };
+         }
+        return jwt.sign({userId: user.id, name: user.nom, role: "default"}, process.env.JWT_KEY, {
                 expiresIn: '60m',
             }
         )

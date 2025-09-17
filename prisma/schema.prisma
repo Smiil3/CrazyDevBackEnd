@@ -8,13 +8,14 @@ datasource db {
 }
 
 model Host {
-  id        Int       @id @default(autoincrement()) @db.UnsignedInt
-  nom       String    @db.VarChar(100)
-  prenom    String?   @db.VarChar(100)
-  email     String    @unique(map: "uq_hosts_email") @db.VarChar(255)
-  telephone String?   @db.VarChar(30)
-  createdAt DateTime? @default(now()) @map("created_at") @db.DateTime(0)
-  biens     biens[]
+  id            Int       @id @default(autoincrement()) @db.UnsignedInt
+  nom           String    @db.VarChar(100)
+  prenom        String?   @db.VarChar(100)
+  email         String    @unique(map: "uq_hosts_email") @db.VarChar(255)
+  password_hash String    @db.VarChar(255)
+  telephone     String?   @db.VarChar(30)
+  createdAt     DateTime? @default(now()) @map("created_at") @db.DateTime(0)
+  biens         biens[]
 
   @@map("hosts")
 }
