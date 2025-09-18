@@ -6,7 +6,7 @@
     "dev": "nodemon src/index.js",
     "prisma:test:push": "prisma db push --schema ${PRISMA_SCHEMA:-prisma/schema.test.prisma}",
     "prisma:test:reset": "rm -f prisma/test.db && npm run prisma:test:push",
-    "test:integration": "dotenv -e .env.test -- prisma migrate reset --force --skip-seed && jest --runInBand"
+    "test": "jest --runInBand"
   },
   "keywords": [],
   "author": "",
