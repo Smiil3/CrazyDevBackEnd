@@ -12,7 +12,7 @@ const adCreation = async(userId, title, description, price, ecoZoneId, roomTypeI
             is_active: true,
     })
     } catch (error) {
-        throw { status: 500, message: error?.message || error };
+        throw { status: error?.status || 500, message: error?.message || error };
     }
 };
 
@@ -20,7 +20,7 @@ const getUserAds = async(userId) => {
     try {
         return await Ad.findByUserId(userId);
     } catch (error) {
-        throw { status: 500, message: error?.message || error };
+        throw { status: error?.status || 500, message: error?.message || error };
     }
 };
 
@@ -29,7 +29,7 @@ const getAllAds = async(ecoZoneId=0) => {
         return ecoZoneId !== 0 ? Ad.findByEcoZoneId(ecoZoneId) :await Ad.list();
     }
     catch (error) {
-        throw { status: 500, message: error?.message || error };
+        throw { status: error?.status || 500, message: error?.message || error };
     }
 };
 
@@ -38,7 +38,7 @@ const getAdById = async (adId) => {
         return await Ad.findByIdAndUser(adId);
     }
     catch (error) {
-        throw { status: 500, message: error?.message || error };
+        throw { status: error?.status || 500, message: error?.message || error };
     }
 }
 

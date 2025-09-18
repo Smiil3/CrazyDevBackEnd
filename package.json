@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "prisma:test:push": "prisma db push --schema ${PRISMA_SCHEMA:-prisma/schema.test.prisma}",
+    "prisma:test:reset": "rm -f prisma/test.db && npm run prisma:test:push",
+    "test": "jest --runInBand"
   },
   "keywords": [],
   "author": "",
@@ -12,10 +15,18 @@
   "dependencies": {
     "@prisma/client": "^6.16.2",
     "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
     "express": "^5.1.0",
     "express-joi-validation": "^6.1.0",
     "jsonwebtoken": "^9.0.2",
     "nodemon": "^3.1.10",
-    "prisma": "^6.16.2"
+    "path": "^0.12.7",
+    "prisma": "^6.16.2",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "dotenv": "^17.2.2",
+    "jest": "^30.1.3",
+    "supertest": "^7.1.4"
   }
 }
