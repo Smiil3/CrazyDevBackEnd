@@ -29,7 +29,7 @@ const getAllAds = async (req, res) => {
     const url_parts = url.parse(req.url, true);
     const query = url_parts.query;
     try {
-        const ads = query.location ? await adsService.getAllAds(query.location) : await adsService.getAllAds();
+        const ads = query.ecoZoneId ? await adsService.getAllAds(query.ecoZoneId) : await adsService.getAllAds();
         res.status(200).json({ ads });
     }
     catch (error) {

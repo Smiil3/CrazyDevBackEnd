@@ -20,7 +20,7 @@ const userRegistration = async(firstName, lastName, email, phoneNumber, password
             expiresIn: '60m',
         })
     } catch (error) {
-        throw { status: 500, message: error?.message || error };
+        throw { status: error?.status || 500, message: error?.message || error };
     }
 };
 
@@ -39,7 +39,7 @@ const userConnection = async (email, password) => {
             }
         )
     } catch (error) {
-        throw { status: 500, message: error?.message || error };
+        throw { status:  error?.status || 500, message: error?.message || error };
     }
 };
 

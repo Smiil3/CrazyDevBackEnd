@@ -1,5 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
+const prisma = require('../v1/prisma');
 
 const Ad = {
     create: (data) => prisma.biens.create({ data }),
