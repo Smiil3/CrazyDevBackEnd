@@ -18,6 +18,16 @@ jobs:
 
       - run: npm ci
 
+      # (facultatif) vérif claire avant les tests
+      - name: Ensure DATABASE_URL is set
+        run: |
+          if [ -z "$DATABASE_URL" ]; then
+            echo "DATABASE_URL is empty. Define it in Repository secrets."
+            exit 1
+          fi
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
       - name: Run Jest Tests
         run: npm test
         env:
