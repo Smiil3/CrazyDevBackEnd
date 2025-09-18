@@ -5,6 +5,7 @@ on:
 
 jobs:
   build:
+    environment: DATABASE_URL
     runs-on: ubuntu-latest
     strategy:
       matrix: { node-version: [18.x] }
