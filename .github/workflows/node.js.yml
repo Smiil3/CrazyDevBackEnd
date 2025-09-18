@@ -1,34 +1,26 @@
 name: Node.js CI
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+  push: { branches: [master] }
+  pull_request: { branches: [master] }
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        node-version: [18.x]
+      matrix: { node-version: [18.x] }
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
-      - name: Create .env.test file
-        run: |
-          echo "DATABASE_URL=${{ secrets.MY_SECRET }}" >> .env.test
-          echo "NODE_ENV=test" >> .env.test
-          echo "JWT_KEY=${{ secrets.ANOTHER_SECRET }}" >> .env.test
-
-      - name: Install Dependencies
-        run: npm ci
+      - run: npm ci
 
       - name: Run Jest Tests
         run: npm test
+        env:
+          NODE_ENV: test
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          JWT_KEY: ${{ secrets.JWT_KEY }}
