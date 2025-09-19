@@ -26,13 +26,12 @@ describe("Get user Ads", () => {
         expect(response.body.ads).toHaveLength(1);
         expect(response.body.ads[0]).toMatchObject({
             id: 1,
-            titre: "Test Ad1",
+            title: "Test Ad1",
             description: "This is a test ad",
-            prix_par_nuit: "100",
-            ecozone_id: 2,
-            type_id: 1,
-            host_id: 1,
-            is_active: true,
+            pricePerNight: "100",
+            ecoZoneId: 2,
+            roomTypeId: 1,
+            imageUrl: expect.stringContaining('http://localhost:3000/uploads/')
         });
     });
     async function createUserAndAds(hashedPassword) {
@@ -58,6 +57,7 @@ describe("Get user Ads", () => {
             type_id: 1,
             host_id: user.id,
             is_active: true,
+            imagePath: "uploads/test.png"
         });
         await Ad.create({
             titre: "Test Ad2",
@@ -67,6 +67,7 @@ describe("Get user Ads", () => {
             type_id: 1,
             host_id: user2.id,
             is_active: true,
+            imagePath: "uploads/test.png"
         });
         return {user, user2};
     }

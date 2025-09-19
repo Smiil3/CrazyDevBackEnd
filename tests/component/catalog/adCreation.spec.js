@@ -3,6 +3,8 @@ const app = require("../../../src");
 const bcrypt = require("bcrypt");
 const Ad = require("../../../src/models/Ad");
 const User = require("../../../src/models/User");
+const path = require("path");
+const fs = require("fs");
 
 describe("Ad Creation", () => {
     const password = "test"
@@ -21,14 +23,13 @@ describe("Ad Creation", () => {
         const response = await request(app)
             .post("/api/v1/ads/create")
             .set({ Authorization: token })
-            .set("content-type", "application/json")
-            .send({
-                title: "Test",
-                description: "Un test.",
-                price: 100,
-                ecoZoneId: 2,
-                roomTypeId: 1
-            });
+            .set("content-type", "multipart/form-data")
+            .attach('image', path.resolve(__dirname, 'test.png'))
+            .field("title", "Test")
+            .field("description", "Un test.")
+            .field("price", "100")
+            .field("ecoZoneId", "2")
+            .field("roomTypeId", "1");
         //THEN
         expect(response.status).toBe(201);
         const ads = await Ad.findByUserId(user.id);
@@ -44,7 +45,15 @@ describe("Ad Creation", () => {
             type_id: 1,
             host_id: 1,
             is_active: true,
+            imagePath: expect.stringContaining('uploads/')
         });
+        if (ads && ads[0]?.imagePath) {
+            const filePath = path.resolve(__dirname, "../../../uploads", path.basename(ads[0].imagePath));
+
+            if (fs.existsSync(filePath)) {
+                fs.unlinkSync(filePath);
+            }
+        }
     });
     async function createUser(hashedPassword) {
         return user = await User.create({

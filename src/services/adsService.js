@@ -1,14 +1,15 @@
 const Ad = require('../models/Ad');
 
-const adCreation = async(userId, title, description, price, ecoZoneId, roomTypeId) => {
+const adCreation = async(userId, title, description, price, ecoZoneId, roomTypeId, imagePath) => {
     try {
         await Ad.create({
             host_id: userId,
             titre: title,
             description: description,
-            prix_par_nuit: price,
-            ecozone_id: ecoZoneId,
-            type_id: roomTypeId,
+            prix_par_nuit: Number(price),
+            ecozone_id: Number(ecoZoneId),
+            type_id: Number(roomTypeId),
+            imagePath: imagePath,
             is_active: true,
     })
     } catch (error) {
@@ -18,7 +19,17 @@ const adCreation = async(userId, title, description, price, ecoZoneId, roomTypeI
 
 const getUserAds = async(userId) => {
     try {
-        return await Ad.findByUserId(userId);
+        const ads = await Ad.findByUserId(userId);
+        return ads.map(ad => ({
+            id: ad.id,
+            title: ad.titre,
+            description: ad.description,
+            pricePerNight: ad.prix_par_nuit,
+            ecoZoneId: ad.ecozone_id,
+            roomTypeId: ad.type_id,
+            createdAt: ad.created_at,
+            imageUrl: ad.imagePath ? `http://localhost:3000/${ad.imagePath}` : null,
+        }));
     } catch (error) {
         throw { status: error?.status || 500, message: error?.message || error };
     }
@@ -26,7 +37,18 @@ const getUserAds = async(userId) => {
 
 const getAllAds = async(ecoZoneId=0) => {
     try {
-        return ecoZoneId !== 0 ? Ad.findByEcoZoneId(ecoZoneId) :await Ad.list();
+        const ads = ecoZoneId !== 0 ? await Ad.findByEcoZoneId(ecoZoneId) : await Ad.list();
+        return ads.map(ad => ({
+            id: ad.id,
+            title: ad.titre,
+            description: ad.description,
+            pricePerNight: ad.prix_par_nuit,
+            ecoZoneId: ad.ecozone_id,
+            roomTypeId: ad.type_id,
+            createdAt: ad.created_at,
+            imageUrl: ad.imagePath ? `http://localhost:3000/${ad.imagePath}` : null,
+        }));
+
     }
     catch (error) {
         throw { status: error?.status || 500, message: error?.message || error };
@@ -35,7 +57,20 @@ const getAllAds = async(ecoZoneId=0) => {
 
 const getAdById = async (adId) => {
     try {
-        return await Ad.findByIdAndUser(adId);
+        const ad= await Ad.findByIdAndUser(adId);
+        return {
+            id: ad.id,
+            title: ad.titre,
+            description: ad.description,
+            pricePerNight: ad.prix_par_nuit,
+            ecoZoneId: ad.ecozone_id,
+            roomTypeId: ad.type_id,
+            imageUrl: ad.imagePath ? `http://localhost:3000/${ad.imagePath}` : "",
+            host: {
+                firstName: ad.hosts.prenom,
+                lastName: ad.hosts.nom,
+            },
+        };
     }
     catch (error) {
         throw { status: error?.status || 500, message: error?.message || error };

@@ -4,10 +4,11 @@ const url = require('url');
 
 const adCreation = async (req, res) => {
     verifyToken(req, res, async () => {});
+    const imagePath = req.file.path;
     const { title, description, price, ecoZoneId, roomTypeId } = req.body;
     const userId = req.userId;
     try {
-        await adsService.adCreation(userId, title, description, price, ecoZoneId, roomTypeId );
+        await adsService.adCreation(userId, title, description, price, ecoZoneId, roomTypeId, imagePath);
         res.status(201).json({ message: "Ad created"});
     } catch (error) {
         res.status(error?.status || 500).send({ status: "FAILED", data: { error: error?.message || error } });
