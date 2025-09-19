@@ -6,10 +6,10 @@ const userRegisterSchema = require("./userRegisterSchema");
 const adDetailsSchema = require("./adDetailsSchema");
 
 module.exports = {
-    adCreationSchema,
-    getUserAdsSchema,
-    getAdsSchema,
-    userLoginSchema,
-    userRegisterSchema,
-    adDetailsSchema
+  adCreationSchema,
+  getUserAdsSchema,
+  getAdsSchema,
+  userLoginSchema,
+  userRegisterSchema,
+  adDetailsSchema,
 };

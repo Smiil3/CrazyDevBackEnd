@@ -6,7 +6,8 @@
     "dev": "nodemon src/index.js",
     "prisma:test:push": "prisma db push --schema ${PRISMA_SCHEMA:-prisma/schema.test.prisma}",
     "prisma:test:reset": "rm -f prisma/test.db && npm run prisma:test:push",
-    "test": "jest --runInBand"
+    "test": "jest --runInBand",
+    "format": "prettier --write src/"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +23,7 @@
     "multer": "^2.0.2",
     "nodemon": "^3.1.10",
     "path": "^0.12.7",
+    "prettier": "^3.6.2",
     "prisma": "^6.16.2",
     "swagger-ui-express": "^5.0.1"
   },
