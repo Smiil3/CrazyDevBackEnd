@@ -1,6 +1,5 @@
-const tokenCheck = async (username, password) => {
-};
+const tokenCheck = async (username, password) => {};
 
 module.exports = {
-    tokenCheck,
+  tokenCheck,
 };

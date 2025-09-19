@@ -1,6 +1,6 @@
 const Joi = require("joi");
 const adDetailsSchema = Joi.object({
-    adId: Joi.number().integer().required()
+  adId: Joi.number().integer().required(),
 });
 
-module.exports = adDetailsSchema
+module.exports = adDetailsSchema;
