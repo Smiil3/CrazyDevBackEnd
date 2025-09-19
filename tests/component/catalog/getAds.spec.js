@@ -14,15 +14,15 @@ describe("Get Ads", () => {
         //THEN
         expect(response.status).toBe(200);
         expect(response.body.ads).toHaveLength(2);
+        console.log(response.body.ads[0])
         expect(response.body.ads[0]).toMatchObject({
             id: 1,
-            titre: "Test Ad1",
+            title: "Test Ad1",
             description: "This is a test ad",
-            prix_par_nuit: "100",
-            ecozone_id: 2,
-            type_id: 1,
-            host_id: 1,
-            is_active: true,
+            pricePerNight: "100",
+            ecoZoneId: 2,
+            roomTypeId: 1,
+            imageUrl: expect.stringContaining('http://localhost:3000/uploads/')
         });
     });
     it("should return 1 ad for ecozone 2", async () => {
@@ -35,13 +35,12 @@ describe("Get Ads", () => {
         expect(response.body.ads).toHaveLength(1);
         expect(response.body.ads[0]).toMatchObject({
             id: 1,
-            titre: "Test Ad1",
+            title: "Test Ad1",
             description: "This is a test ad",
-            prix_par_nuit: "100",
-            ecozone_id: 2,
-            type_id: 1,
-            host_id: 1,
-            is_active: true,
+            pricePerNight: "100",
+            ecoZoneId: 2,
+            roomTypeId: 1,
+            imageUrl: expect.stringContaining('http://localhost:3000/uploads/')
         });
     })
     async function createUserAndAds(hashedPassword) {
@@ -60,6 +59,7 @@ describe("Get Ads", () => {
             type_id: 1,
             host_id: user.id,
             is_active: true,
+            imagePath: "uploads/test"
         });
         await Ad.create({
             titre: "Test Ad2",
@@ -69,6 +69,7 @@ describe("Get Ads", () => {
             type_id: 1,
             host_id: user.id,
             is_active: true,
+            imagePath: "uploads/test"
         });
         return user;
     }

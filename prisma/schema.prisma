@@ -24,6 +24,7 @@ model biens {
   id            Int             @id @default(autoincrement()) @db.UnsignedInt
   host_id       Int             @db.UnsignedInt
   titre         String          @db.VarChar(200)
+  imagePath     String          @db.VarChar(255)
   description   String?         @db.Text
   ecozone_id    Int             @db.UnsignedInt
   type_id       Int             @db.UnsignedInt

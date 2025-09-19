@@ -15,14 +15,14 @@ describe("Get Ad by id", () => {
         expect(response.status).toBe(200);
         expect(response.body.ads).toMatchObject({
             id: 1,
-            titre: "Test Ad1",
+            title: "Test Ad1",
             description: "This is a test ad",
-            prix_par_nuit: "100",
-            ecozone_id: 2,
-            type_id: 1,
-            hosts: {
-                prenom: user.prenom,
-                nom: user.nom,
+            pricePerNight: "100",
+            ecoZoneId: 2,
+            roomTypeId: 1,
+            host: {
+                firstName: user.prenom,
+                lastName: user.nom,
             }
         });
     });
@@ -42,6 +42,7 @@ describe("Get Ad by id", () => {
             type_id: 1,
             host_id: user.id,
             is_active: true,
+            imagePath: "uploads/test.png"
         });
         const ad2 = await Ad.create({
             titre: "Test Ad2",
@@ -51,6 +52,7 @@ describe("Get Ad by id", () => {
             type_id: 1,
             host_id: user.id,
             is_active: true,
+            imagePath: "uploads/test.png"
         });
         return {user, ad, ad2};
     }
